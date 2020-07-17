@@ -1,0 +1,14 @@
+sudo apt install -y golang
+go version
+echo $GOPATH
+cd go
+sudo vi helloWorld.go
+go helloWorld.go 
+go build helloWorld.go 
+
+go get -v github.com/Telmate/terraform-provider-proxmox/cmd/terraform-provider-proxmox
+go get -v github.com/Telmate/terraform-provider-proxmox/cmd/terraform-provisioner-proxmox
+go install -v github.com/Telmate/terraform-provider-proxmox/cmd/terraform-provider-proxmox
+go install -v github.com/Telmate/terraform-provider-proxmox/cmd/terraform-provisioner-proxmox
+sudo cp $GOPATH/bin/terraform-provider-proxmox /usr/local/bin/
+sudo cp $GOPATH/bin/terraform-provisioner-proxmox /usr/local/bin/

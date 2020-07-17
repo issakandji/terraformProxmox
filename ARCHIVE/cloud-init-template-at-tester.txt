@@ -1,0 +1,15 @@
+cd /mnt/md0/template/iso
+wget https://cloud.debian.org/images/cloud/buster/20200610-293/debian-10-generic-amd64-20200610-293.qcow2
+qm create 9000 --name "debian-amd64-20200610-293-cloudinit-template" --memory 2048 --net0 virtio,bridge=vmbr0
+qm list
+qm importdisk 9000 debian-10-generic-amd64-20200610-293.qcow2 m1ZfsPool
+qm set 9000 --scsihw virtio-scsi-pci --scsi0 m1ZfsPool:vm-9000-disk-0
+qm set 9000 --ide2 m1ZfsPool:cloudinit
+qm set 9000 --boot c --bootdisk scsi0
+qm set 9000 --serial0 socket --vga serial0
+qm template 9000
+qm clone 9000 200 --name my-Vm-fromDebianTpl
+qm set 200 --sshkey ~/.ssh/id_rsa.pub
+qm set 200 --ipconfig0 ip=10.0.0.56/24,gw=10.0.0.1
+qm start 200
+#####generating cloud-init ISO
